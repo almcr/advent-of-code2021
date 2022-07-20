@@ -12,9 +12,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
   let res = lines.map(|l| l.unwrap().parse::<u16>().unwrap())
   .tuple_windows()
-  .map(|(a, b, c)| a + b + c)
-  .tuple_windows()
-  .filter(|(a, b)| a < b)
+  .filter(|(a, _, _, b)| a < b)
   .count();
 
   println!("{}", res);
