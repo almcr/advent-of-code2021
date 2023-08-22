@@ -1,10 +1,11 @@
 use std::{num::ParseIntError, str::FromStr};
 
+#[derive(Debug)]
 struct Line {
-  x1: u32,
-  y1: u32,
-  x2: u32,
-  y2: u32,
+  x1: usize,
+  y1: usize,
+  x2: usize,
+  y2: usize,
 }
 
 impl FromStr for Line {
@@ -24,30 +25,30 @@ impl FromStr for Line {
   }
 }
 
-impl Line {
-  fn intersect(&self, rhs: &Self) -> (u32, u32) {
-    if rhs.x1 >= self.x1 && self.x1 <= rhs.x2 {
-      
-    }
-  }
-}
-
 fn day5a() -> Result<i32, Box<dyn std::error::Error>> {
-  let lines: Vec<Line> = include_str!("./test")
+  let mut overlap_map = vec![0; 1000 * 1000];
+  let mut num_overlaps = 0;
+  include_str!("./input")
     .lines()
     .map(|l| Line::from_str(l).unwrap())
-    .collect();
-  
-  
-  Ok(0)
+    .filter(|l| l.x1 == l.x2 || l.y1 == l.y2) // consider only horz & vert lines
+    .for_each(|l| {
+      let mut mark = |x, y| {
+        if overlap_map[x + y * 1000] == 1 {
+          num_overlaps += 1;
+        }
+        overlap_map[x + y * 1000] += 1;
+      };
+      if l.x1 == l.x2 {
+        (l.y1.min(l.y2)..=l.y1.max(l.y2)).for_each(|y| mark(l.x1, y))
+      } else if l.y1 == l.y2 {
+        (l.x1.min(l.x2)..=l.x1.max(l.x2)).for_each(|x| mark(x, l.y1))
+      }
+    });
+
+  Ok(num_overlaps)
 }
 
 fn main() {
   println!("{}", day5a().unwrap())
-}
-
-#[test]
-fn intersect_test() {
-  let l1 = Line::from_str("0,0 -> 2,0");
-  let l2 = Line::from_str("1,0 -> 1,2");
 }
