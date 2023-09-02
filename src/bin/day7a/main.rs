@@ -1,5 +1,8 @@
 fn day7a() -> Result<i32, Box<dyn std::error::Error>> {
-  let mut pos: Vec<i32> = include_str!("./input").split(",").map(|c| c.parse().unwrap()).collect();
+  let mut pos: Vec<i32> = include_str!("./input")
+    .split(",")
+    .map(|c| c.parse().unwrap())
+    .collect();
   pos.sort();
 
   let pivot = pos[pos.len() / 2];

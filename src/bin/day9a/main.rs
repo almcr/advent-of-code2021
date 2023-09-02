@@ -1,5 +1,5 @@
 pub fn main() {
-  let map: Vec<_> = include_bytes!("test").split(|b| b == &b'\n').collect();
+  let map: Vec<_> = include_bytes!("input").split(|b| b == &b'\n').collect();
   let neighbors = [(0, -1), (0, 1), (-1, 0), (1, 0)];
 
   let mut sum = 0;
