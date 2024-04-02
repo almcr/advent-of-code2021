@@ -1,4 +1,4 @@
-#![feature(drain_filter)]
+#![feature(extract_if)]
 
 use std::collections::HashMap;
 
@@ -34,7 +34,7 @@ fn day4b() -> Result<i32, Box<dyn std::error::Error>> {
     .iter()
     .filter_map(|n| {
       boards
-        .drain_filter(|(bi, b)| {
+        .extract_if(|(bi, b)| {
           let bi = *bi;
           b.get_mut(n)
             .map(|(i, j, m)| {
